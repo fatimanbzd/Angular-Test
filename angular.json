@@ -77,6 +77,8 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+           // "main": "src/test.ts",
+            "codeCoverage": true,
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -89,10 +91,14 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "999fbe4a-54a3-478c-9f3b-24f764d9f09a"
   }
 }
