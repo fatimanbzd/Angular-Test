@@ -22,4 +22,9 @@ export class PostService {
   deletePost(post: Post) {
     return this.http.delete(`https://jsonplaceholder.typicode/posts/${post.id}`);
   }
+
+   updatePost(post: Post) {
+    return this.http.post(`https://jsonplaceholder.typicode/posts`, post);
+  }
+ 
 }
