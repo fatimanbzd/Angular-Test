@@ -5,7 +5,6 @@ import { PostService } from 'src/app/services/post/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/interfacs/post';
 import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
