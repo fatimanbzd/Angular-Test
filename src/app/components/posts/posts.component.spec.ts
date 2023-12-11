@@ -4,8 +4,6 @@ import { PostsComponent } from './posts.component';
 import { Post } from 'src/app/interfacs/post';
 import { PostService } from 'src/app/services/post/post.service';
 import { of } from 'rxjs';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler';
-import { CommonModule } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { PostComponent } from '../post/post.component';
@@ -65,27 +63,28 @@ describe('PostsComponent', () => {
     expect(component.posts.length).toBe(3);
   });
 
-  it('should create exact same number of post component with posts', () => { 
-
+  it('should create exact same number of post component with posts', () => {
     mockPostService.getPosts.and.returnValue(of(POSTS));
     // ngOnInit
 
     fixture.detectChanges();
-    const PostComponentDEs = fixture.debugElement.queryAll(By.directive(PostComponent));
+    const PostComponentDEs = fixture.debugElement.queryAll(
+      By.directive(PostComponent)
+    );
     expect(PostComponentDEs.length).toEqual(POSTS.length);
   });
 
-  
-  it('should check whether eaxct post is sending to PostComponent', () => { 
-
+  it('should check whether eaxct post is sending to PostComponent', () => {
     mockPostService.getPosts.and.returnValue(of(POSTS));
     // ngOnInit
     fixture.detectChanges();
-    const PostComponentDEs = fixture.debugElement.queryAll(By.directive(PostComponent));
+    const PostComponentDEs = fixture.debugElement.queryAll(
+      By.directive(PostComponent)
+    );
 
     for (let i = 0; i < PostComponentDEs.length; i++) {
-       
-      let PostComponentInstance = PostComponentDEs[i].componentInstance as PostComponent;
+      let PostComponentInstance = PostComponentDEs[i]
+        .componentInstance as PostComponent;
       expect(PostComponentInstance.post?.title).toEqual(POSTS[i].title);
     }
   });
@@ -119,6 +118,22 @@ describe('PostsComponent', () => {
       // spyOn(postService, 'deletePost').and.callThrough();
       component.delete(POSTS[1]);
       expect(mockPostService.deletePost).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call the delete method when post component button is clicked ', () => {
+      spyOn(component, 'delete');
+      mockPostService.getPosts.and.returnValue(of(POSTS));
+      fixture.detectChanges();
+
+      let postComponentDEs = fixture.debugElement.queryAll(
+        By.directive(PostComponent)
+      );
+      for (let i = 0; i < postComponentDEs.length; i++) {
+        postComponentDEs[i]
+          .query(By.css('button'))
+          .triggerEventHandler('click', { preventDefault: () => {} });
+        expect(component.delete).toHaveBeenCalledWith(POSTS[i]);
+      }
     });
   });
 });
