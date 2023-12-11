@@ -35,5 +35,32 @@ describe('http client testing module', () => {
         expect(request.request.method).toBe('GET');
     });
 
-    
+    it('should test multiple requests', () => { 
+
+        const testData: Data[] = [
+            { name: 'Fatima Nabi' },
+            { name: 'Fatima Nabi Web Developer' }];
+
+        httpClient.get<Data[]>(testUrl).subscribe(data => {
+            expect(data.length).toEqual(0);
+        });
+
+        httpClient.get<Data[]>(testUrl).subscribe(data => {
+            expect(data).toEqual([testData[0]]);
+        });
+
+        httpClient.get<Data[]>(testUrl).subscribe(data => {
+            expect(data).toEqual(testData);
+        });
+
+        const requests = httpTestingController.match(testUrl);
+
+        expect(requests.length).toEqual(3);
+
+        requests[0].flush([]);
+        requests[1].flush([testData[0]]);
+        requests[2].flush(testData);
+    });
+
+
 })
